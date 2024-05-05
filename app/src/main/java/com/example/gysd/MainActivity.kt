@@ -26,6 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.example.gysd.navigation.AppNavigation
 
 data class BottomNavigationItem(
     val title : String,
@@ -40,72 +41,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             GysdTheme {
-                val items = listOf(
-                    BottomNavigationItem(
-                        title = "Pomodoro",
-                        selectedIcon = Icons.Filled.pomodoro,
-                        unselectedIcon =  Icon.Outlined.pomodoro,
-                        hasNews = false,
-                    ),
-
-                    BottomNavigationItem(
-                        title = "ToDo",
-                        selectedIcon = Icons.Filled.ToDo,
-                        unselectedIcon =  Icon.Outlined.ToDo,
-                        hasNews = false,
-                    ),
-
-                    BottomNavigationItem(
-                        title = "Calendar",
-                        selectedIcon = Icons.Filled.Calendar,
-                        unselectedIcon =  Icon.Outlined.Calendar,
-                        hasNews = false,
-                    ),
-
-                    BottomNavigationItem(
-                        title = "Statistic",
-                        selectedIcon = Icons.Filled.Statistic,
-                        unselectedIcon =  Icon.Outlined.Statistic,
-                        hasNews = false,
-                    ),
-
-                    BottomNavigationItem(
-                        title = "Settings",
-                        selectedIcon = Icons.Filled.Settings,
-                        unselectedIcon =  Icon.Outlined.Settings,
-                        hasNews = false,
-                    ),
-                )
-
-                var selectedItemIndex by rememberSaveable {
-                    mutableStateOf(0)
-                }
-
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Scaffold(
-                        bottomBar = {
-                            NavigationBar{
-                                items.forEachIndexed { index, item ->
-                                    NavigationBarItem(
-                                        selected = selectedItemIndex == index,
-                                        onClick = {
-                                                  selectedItemIndex = index
-                                                  //navController.navigate(item.title)
-                                        },
-                                        icon = {})
-                                }
-                            }
-
-                        }
-                    ) {
-
-                    }
-
-
+                    //Greeting("Michael")
+                    AppNavigation()
                 }
             }
         }

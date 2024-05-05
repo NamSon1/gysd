@@ -1,7 +1,7 @@
 package com.example.gysd.navigation
 
 enum class Screens {
-    HomeScreen,
+    PomodoroScreen,
     ToDoScreen,
     CalendarScreen,
     StatisticsScreen,
