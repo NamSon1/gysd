@@ -1,4 +1,4 @@
-package com.example.gysd.Screens
+package com.example.gysd.navigation.Screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,13 +10,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ToDoScreen() {
+fun SettingsScreen() {
     Box(modifier = Modifier
         .fillMaxSize(),
         contentAlignment = Alignment.Center
     ){
         Text(
-            text = "ToDo Screen",
+            text = "Settings Screen",
             fontFamily = FontFamily.Serif,
             fontSize = 22.sp
         )

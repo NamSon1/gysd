@@ -1,4 +1,4 @@
-package com.example.gysd.Screens
+package com.example.gysd.navigation.Screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,14 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 
+
 @Composable
-fun SettingsScreen() {
+fun PomodoroScreen() {
     Box(modifier = Modifier
         .fillMaxSize(),
         contentAlignment = Alignment.Center
     ){
         Text(
-            text = "Settings Screen",
+            text = "Pomodoro Screen",
             fontFamily = FontFamily.Serif,
             fontSize = 22.sp
         )

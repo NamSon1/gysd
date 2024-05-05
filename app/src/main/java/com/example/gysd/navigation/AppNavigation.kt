@@ -17,11 +17,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.gysd.Screens.CalendarScreen
-import com.example.gysd.Screens.PomodoroScreen
-import com.example.gysd.Screens.SettingsScreen
-import com.example.gysd.Screens.StatisticsScreen
-import com.example.gysd.Screens.ToDoScreen
+import com.example.gysd.navigation.Screens.CalendarScreen
+import com.example.gysd.navigation.Screens.PomodoroScreen
+import com.example.gysd.navigation.Screens.SettingsScreen
+import com.example.gysd.navigation.Screens.StatisticsScreen
+import com.example.gysd.navigation.Screens.ToDoScreen
 
 @Composable
 fun AppNavigation() {
@@ -67,19 +67,20 @@ fun AppNavigation() {
                 .padding(paddingValues)
         ) {
             composable(route = Screens.PomodoroScreen.name) {
-                PomodoroScreen()
+                //com.example.gysd.navigation.Screens.PomodoroScreen()
+                com.example.gysd.navigation.Screens.PomodoroScreen()
             }
             composable(route = Screens.ToDoScreen.name) {
-                ToDoScreen()
+                com.example.gysd.navigation.Screens.ToDoScreen()
             }
             composable(route = Screens.CalendarScreen.name) {
-                CalendarScreen()
+                com.example.gysd.navigation.Screens.CalendarScreen()
             }
             composable(route = Screens.StatisticsScreen.name) {
-                StatisticsScreen()
+                com.example.gysd.navigation.Screens.StatisticsScreen()
             }
             composable(route = Screens.SettingsScreen.name) {
-                SettingsScreen()
+                com.example.gysd.navigation.Screens.SettingsScreen()
             }
         }
     }
