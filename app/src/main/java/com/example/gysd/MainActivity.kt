@@ -20,11 +20,13 @@ import com.example.gysd.ui.theme.GysdTheme
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.gysd.navigation.AppNavigation
 
@@ -89,7 +91,11 @@ fun TaskList() {
 }
 
 
+@Composable
 fun MainStructure() {
-
+    Icon(
+        painter = painterResource(id = R.drawable.clock_png),
+        contentDescription = null // decorative element
+    )
 
 }

@@ -9,6 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -17,12 +20,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.gysd.R
 import com.example.gysd.Screens.CalendarScreen
 import com.example.gysd.Screens.PomodoroScreen
 import com.example.gysd.Screens.SettingsScreen
 import com.example.gysd.Screens.StatisticsScreen
 import com.example.gysd.Screens.ToDoScreen
 
+
+@Preview(showBackground = true)
 @Composable
 fun AppNavigation() {
     val navController : NavHostController = rememberNavController()
@@ -48,7 +54,8 @@ fun AppNavigation() {
                         icon = {
                                Icon(
                                    imageVector = navItem.icon,
-                                   contentDescription = null
+                                   contentDescription = null,
+                                   //Modifier.paint(painterResource(id = R.drawable.clock_png))
                                )
                         },
                         label = {
@@ -67,19 +74,19 @@ fun AppNavigation() {
                 .padding(paddingValues)
         ) {
             composable(route = Screens.PomodoroScreen.name) {
-                com.example.gysd.navigation.Screens.PomodoroScreen
+                com.example.gysd.Screens.PomodoroScreen()
             }
             composable(route = Screens.ToDoScreen.name) {
-                com.example.gysd.navigation.Screens.ToDoScreen
+                com.example.gysd.Screens.ToDoScreen()
             }
             composable(route = Screens.CalendarScreen.name) {
-                com.example.gysd.navigation.Screens.CalendarScreen
+                com.example.gysd.Screens.CalendarScreen()
             }
             composable(route = Screens.StatisticsScreen.name) {
-                com.example.gysd.navigation.Screens.StatisticsScreen
+                com.example.gysd.Screens.StatisticsScreen()
             }
             composable(route = Screens.SettingsScreen.name) {
-                com.example.gysd.navigation.Screens.StatisticsScreen
+                com.example.gysd.Screens.SettingsScreen()
             }
         }
     }
