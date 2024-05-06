@@ -28,13 +28,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.example.gysd.navigation.AppNavigation
 
-data class BottomNavigationItem(
-    val title : String,
-    val selectedIcon : ImageVector,
-    val unselectedIcon : ImageVector,
-    val hasNews : Boolean,
-    val badgeCount : Int? = null
-)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,10 +88,6 @@ fun TaskList() {
     }
 }
 
-fun Padding() {
-    
-
-}
 
 fun MainStructure() {
 
