@@ -97,5 +97,6 @@ fun MainStructure() {
         painter = painterResource(id = R.drawable.clock_png),
         contentDescription = null // decorative element
     )
-
 }
+
+
