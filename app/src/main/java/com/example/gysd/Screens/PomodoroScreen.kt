@@ -24,10 +24,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,11 +39,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -49,6 +54,9 @@ import com.example.gysd.R
 import com.example.gysd.navigation.AppNavigation
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
+import kotlinx.coroutines.delay
+import java.util.Calendar
+import kotlin.math.min
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,6 +64,31 @@ import com.example.gysd.ui.theme.black
 @Preview(showBackground = true)
 @Composable
 fun PomodoroScreen() {
+    var hour by remember { mutableStateOf("0") }
+    var minute by remember { mutableStateOf("0") }
+    var second by remember { mutableStateOf("0") }
+    var amOrPm by remember { mutableStateOf("0") }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            val cal = Calendar.getInstance()
+            hour = cal.get(Calendar.HOUR).run {
+                if (this.toString().length == 1) "0$this" else "$this"
+            }
+            minute = cal.get(Calendar.MINUTE).run {
+                if (this.toString().length == 1) "0$this" else "$this"
+            }
+            second = cal.get(Calendar.SECOND).run {
+                if (this.toString().length == 1) "0$this" else "$this"
+            }
+            amOrPm = cal.get(Calendar.AM_PM).run {
+                if (this.toString().length == 1) "AM" else "PM"
+            }
+
+            delay(1000)
+        }
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -91,51 +124,31 @@ fun PomodoroScreen() {
                     containerColor = backGroundgrey,
                     titleContentColor = black,
                 ),
-
-
             )
         }
 
-    ){ innerPaddingValues ->
+    ){
         Column(
-            Modifier.fillMaxSize().background(backGroundgrey),
+            Modifier
+                .fillMaxSize()
+                .background(backGroundgrey),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
-        ) {
-            Divider (
-                color = Color.Black,
-                modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth()
-            )
-            Text(text = "Werbung 1")
-            Text(text = "Werbung 2")
-            Text(text = "Werbung 3")
-
-            Button(onClick = { /*TODO*/ }) {
-
+        ){
+            DigitalClockComponent(hour = hour, minute = minute, amOrPm = amOrPm)
+            Row() {
+                TaskSkipButtonLeft()
+                Spacer(modifier = Modifier.weight(1f))
+                ModusButton()
+                Spacer(modifier = Modifier.weight(1f))
+                TaskSkipButtonRight()
             }
 
+
+            TimerButton()
         }
-
-
-
-
     }
 }
-
-
-/*
-Column {
-        Row {
-            TaskSkipButtonLeft()
-            Text(text = "Jamba")
-            Spacer(modifier = Modifier.width(50.dp))
-            TaskSkipButtonRight()
-            CounterButton()
-        }
-    }
- */
 
 
 
@@ -151,9 +164,17 @@ fun ExampleBox(){
         )
     }
 }
+
+//erstellt schwarze Linie
+Divider (
+                color = Color.Black,
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+
 */
 
-@Preview(showBackground = true)
 @Composable
 fun TaskSkipButtonLeft() {
     IconButton(
@@ -166,8 +187,6 @@ fun TaskSkipButtonLeft() {
     }
 }
 
-
-@Preview(showBackground = true)
 @Composable
 fun TaskSkipButtonRight() {
     IconButton(
@@ -180,15 +199,105 @@ fun TaskSkipButtonRight() {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun CounterButton() {
-    var counter by remember { mutableStateOf(0) }
-    Button(onClick = { counter++ }) {
-        Text("Counter: $counter")
+fun DigitalClockComponent(hour : String, minute : String, amOrPm : String) {
+    Text(
+        text = "$hour:$minute $amOrPm",
+        style = MaterialTheme.typography.titleLarge
+    )
+
+    Text(
+        text = "Berlin, Germany",
+        style = MaterialTheme.typography.titleMedium.merge(
+            TextStyle(
+                color = MaterialTheme.colorScheme.onBackground.copy(
+                    alpha = 0.6f
+                )
+            )
+        )
+    )
+}
+
+@Composable
+fun AnalogClockComponent(hour : Int, minute : Int, second : Int) {
+    Box(modifier = Modifier.fillMaxSize(fraction = 0.6f)) {
+        androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
+            val diameter = min(size.width, size.height) * 0.9f
+            val radius = diameter / 2
+
+            val start = center - Offset(0f, radius)
+            val end = start + Offset(0f, radius / 40f)
+            drawLine(
+                color = Color.White,
+                start = start,
+                end = end,
+                strokeWidth = 5.dp.toPx(),
+                cap = StrokeCap.Round
+            )
+
+        }
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun ModusButton(){
+    Button(
+        onClick = { /*TODO*/ },
+
+    ){
+        Text(text = "Focus")
+    }
+}
+
+data class ToggleableInfo(
+    val isChecked : Boolean,
+    val text : String
+)
+
+@Composable
+fun TimerButton(){
+    Button(
+        onClick = { /*TODO*/ }
+    ){
+        Text(text = "Start")
+    }
+}
+
+@Composable
+private fun MySwitch(){
+    var switch by remember {
+        mutableStateOf(ToggleableInfo(
+            isChecked = false,
+            text = ""
+        ))
+    }
+
+    Switch(
+        checked = switch.isChecked,
+        onCheckedChange = {isChecked ->
+            switch = switch.copy(isChecked = isChecked)
+        }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SessionLabel(){
+    Text(text = "Session 3/4")
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CurrentTaskLabel(){
+    Text(text = "Current Task")
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TaskTextField(){
+    Text(text = "Making UI design for an app")
+}
 
 
 

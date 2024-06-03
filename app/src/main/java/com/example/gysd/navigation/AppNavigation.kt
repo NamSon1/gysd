@@ -1,7 +1,9 @@
 package com.example.gysd.navigation
 
+import android.graphics.Color
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -26,7 +28,7 @@ import com.example.gysd.Screens.PomodoroScreen
 import com.example.gysd.Screens.SettingsScreen
 import com.example.gysd.Screens.StatisticsScreen
 import com.example.gysd.Screens.ToDoScreen
-
+import com.google.android.material.theme.overlay.MaterialThemeOverlay
 
 
 @Preview(showBackground = true)
@@ -44,7 +46,6 @@ fun AppNavigation() {
                 /*
                     Für jedes NavItem aus der Liste "listOfNavItems" wird ein NavigationBarItem erstellt.
                     Das Icon und das Label für das NavigationBarItem wird von den Eigenschaften des NavItems genommen.
-
                  */
                 listOfNavItems.forEach {navItem ->
                     NavigationBarItem(
@@ -52,9 +53,14 @@ fun AppNavigation() {
                         onClick = {
                                   navController.navigate(navItem.route) {
                                       popUpTo(navController.graph.findStartDestination().id) {
+                                          // Save backstack state. This will ensure restoration of
+                                          // nested navigation screen when the user comes back to the destination.
                                           saveState = true
                                       }
+                                      // prevent duplicate destinations when the navigation is clicked multiple times
                                       launchSingleTop = true
+
+                                      // restore state if previously saved
                                       restoreState = true
                                   }
                         },
@@ -73,6 +79,7 @@ fun AppNavigation() {
             }
 
         }
+
     ){ paddingValues ->
 
         // Der NavHost enthält alle Destinations und den NavController.
@@ -86,8 +93,8 @@ fun AppNavigation() {
             /*
                 Die Composables hier bilden die Destinations ab. Beim Erstellen wird die Route angegeben,
                 bei der sich die Screens befinden. Die Route, die dem Composable übergeben wird (route = ...),
-                wird aus der Enumeration der "Screens.kt" übernommen. Dies ist lediglich der Name der Composables.
-             */
+                wird aus der Enumeration der "Screens.kt" übernommen. Dies ist lediglich der Name / ein Identifier der Composables.
+            */
 
             composable(route = Screens.PomodoroScreen.name) {
                 com.example.gysd.Screens.PomodoroScreen()
@@ -107,3 +114,5 @@ fun AppNavigation() {
         }
     }
 }
+
+
