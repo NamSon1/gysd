@@ -53,23 +53,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GysdTheme {
-        Greeting("Android")
-    }
-}
-
-
 @Preview(showBackground = true)
 @Composable
 fun TaskList() {
@@ -94,13 +77,5 @@ fun TaskList() {
     }
 }
 
-
-@Composable
-fun MainStructure() {
-    Icon(
-        painter = painterResource(id = R.drawable.clock_png),
-        contentDescription = null // decorative element
-    )
-}
 
 
