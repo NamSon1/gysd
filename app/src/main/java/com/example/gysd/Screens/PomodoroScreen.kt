@@ -1,6 +1,7 @@
 package com.example.gysd.Screens
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,11 +16,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,10 +58,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.example.gysd.R
 import com.example.gysd.navigation.AppNavigation
 import com.example.gysd.ui.theme.backGroundgrey
@@ -79,7 +85,10 @@ fun PomodoroScreen() {
     var second by remember { mutableStateOf("0") }
     var amOrPm by remember { mutableStateOf("0") }
 
-    //Logik für die Anzeige der Zeit für das Composable "DigitalClockComponent"
+    /*
+        - Logik für die Anzeige der Zeit für das Composable "DigitalClockComponent"
+        - muss noch verlagert werden (nach MVVM)
+    */
     LaunchedEffect(Unit) {
         while (true) {
             val cal = Calendar.getInstance()
@@ -104,18 +113,6 @@ fun PomodoroScreen() {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                //modifier = Modifier.border(width = Dp.Hairline, color = Color.Black, shape = RectangleShape),
-
-                /*
-                modifier = Modifier.drawBehind {
-                    drawRoundRect(
-                        color = Color.Black,
-                        cornerRadius = CornerRadius(0.dp.toPx(), 0.dp.toPx()),
-                        alpha = 1F
-                    )
-                },
-                 */
-
                 modifier = Modifier.drawBehind {
                     val strokeWidth = 100 * density
                     val y = size.height - strokeWidth / 2
@@ -140,7 +137,7 @@ fun PomodoroScreen() {
         }
 
     ){
-        //Main-Struktur
+        //Hauptstruktur: Anordung aller Elemente und Elementgruppen in einer Spalte (Column)
         Column(
             Modifier
                 .fillMaxSize()
@@ -156,34 +153,15 @@ fun PomodoroScreen() {
 
             Spacer(modifier = Modifier.size(10.dp))
 
-            Column(
-                modifier = Modifier
-                    .padding(30.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ){
-                SessionLabel()
-                DigitalClockComponent(hour = hour, minute = minute, amOrPm = amOrPm)
-                estimatedTimeLabel()
-            }
-
-
-            //Task-Skipbuttons + Button zum Wechsel der Modi
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TaskSkipButtonLeft()
-                Spacer(modifier = Modifier.weight(1f))
-                ModusButton()
-                Spacer(modifier = Modifier.weight(1f))
-                TaskSkipButtonRight()
-            }
+            DigitalClockComponent(hour = hour, minute = minute, amOrPm = amOrPm)
+            Spacer(modifier = Modifier.size(50.dp))
+            ModusTaskButton_Group()
 
             Spacer(modifier = Modifier.size(100.dp))
 
             // Timer-Button + Reset-Button
             TimerButtonGroup()
+
         }
     }
 }
@@ -214,89 +192,123 @@ Divider (
 */
 
 @Composable
-fun TaskSkipButtonLeft() {
-    IconButton(
-        onClick = { /*TODO*/ }
+fun ModusTaskButton_Group(){
+    //Task-Skipbuttons + Button zum Wechsel der Modi
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
+
+        //TaskSkipButtonLeft
+        IconButton(
+            onClick = { /*TODO*/ }
+        ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.taskskipbuttonleft),
                 contentDescription = null
             )
-    }
-}
+        }
 
-@Composable
-fun TaskSkipButtonRight() {
-    IconButton(
-        onClick = { /*TODO*/ }
-    ) {
+        Spacer(modifier = Modifier.weight(1f))
+
+        //Modus-Button
+        Button(
+            //Beim Button-Click soll der Modus gewechselt werden. Es gibt zwei verschiedene Modien: "Focus" und "Break"
+            modifier = Modifier.size(width = 89.dp, height = 35.dp),
+            onClick = { /*TODO*/ },
+            colors = ButtonDefaults.buttonColors(Color.Black)
+        ){
+            Text(text = "Focus", fontSize = 15.sp)
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        //TaskSkipButtonRight
+        IconButton(
+            onClick = { /*TODO*/ }
+        ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.taskskipbuttonright),
                 contentDescription = null
             )
-    }
-}
-
-@Composable
-fun DigitalClockComponent(hour : String, minute : String, amOrPm : String) {
-    Text(
-        text = "$hour:$minute $amOrPm",
-        style = MaterialTheme.typography.titleLarge,
-        fontSize = 40.sp,
-        fontWeight = FontWeight.Bold
-    )
-
-    Text(
-        text = "Berlin, Germany",
-        // zwei Styles werden vereinigt mit ".merge"
-        style = MaterialTheme.typography.titleMedium.merge(
-            TextStyle(
-                color = MaterialTheme.colorScheme.onBackground.copy(
-                    alpha = 0.6f
-                )
-            )
-        )
-    )
-}
-
-@Composable
-fun AnalogClockComponent(hour : Int, minute : Int, second : Int) {
-    Box(modifier = Modifier.fillMaxSize(fraction = 0.6f)) {
-        androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
-            val diameter = min(size.width, size.height) * 0.9f
-            val radius = diameter / 2
-
-            val start = center - Offset(0f, radius)
-            val end = start + Offset(0f, radius / 40f)
-            drawLine(
-                color = Color.White,
-                start = start,
-                end = end,
-                strokeWidth = 5.dp.toPx(),
-                cap = StrokeCap.Round
-            )
-
         }
     }
 }
 
 
 @Composable
-fun ModusButton(){
-    Button(
-        //Beim Button-Click soll der Modus gewechselt werden. Es gibt zwei verschiedene Modien: "Focus" und "Break"
-        modifier = Modifier.size(width = 89.dp, height = 35.dp),
-        onClick = { /*TODO*/ },
-        colors = ButtonDefaults.buttonColors(Color.Black)
-    ){
-        Text(text = "Focus", fontSize = 15.sp)
+fun DigitalClockComponent(hour : String, minute : String, amOrPm : String) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        //Session-Label
+        Text(
+            text = "Session 3/4",
+            style = MaterialTheme.typography.labelSmall,
+            color = Color.Gray
+        )
+        //Uhrenanzeige
+        Text(
+            text = "$hour:$minute $amOrPm",
+            style = MaterialTheme.typography.titleLarge,
+            fontSize = 40.sp,
+            fontWeight = FontWeight.Bold
+        )
+        //Ortsanzeige
+        Text(
+            text = "Berlin, Germany",
+            // zwei Styles werden vereinigt mit ".merge"
+            style = MaterialTheme.typography.titleMedium.merge(
+                TextStyle(
+                    color = MaterialTheme.colorScheme.onBackground.copy(
+                        alpha = 0.6f
+                    )
+                )
+            )
+        )
+        //geschätzte Endzeit
+        Text(
+            text = "FINNISHED AT 11:35 AM",
+            style = MaterialTheme.typography.labelSmall,
+            color = Color.Gray
+        )
     }
 }
+
+
+@Composable
+fun AnalogClockComponent(hour : Int, minute : Int, second : Int) {
+    Box(
+        modifier = Modifier.fillMaxSize(fraction = 0.6f)
+    ) {
+        androidx.compose.foundation.Canvas(
+            modifier = Modifier.fillMaxSize()
+        ) {
+                val diameter = min(size.width, size.height) * 0.9f
+                val radius = diameter / 2
+
+                val start = center - Offset(0f, radius)
+                val end = start + Offset(0f, radius / 40f)
+                drawLine(
+                    color = Color.White,
+                    start = start,
+                    end = end,
+                    strokeWidth = 5.dp.toPx(),
+                    cap = StrokeCap.Round
+                )
+
+        }
+    }
+}
+
+
 
 data class ToggleableInfo(
     val isChecked : Boolean,
     val text : String
 )
+
 
 @Composable
 private fun MySwitch(){
@@ -317,24 +329,6 @@ private fun MySwitch(){
 
 
 @Composable
-fun SessionLabel(){
-    Text(
-        text = "Session 3/4",
-        style = MaterialTheme.typography.labelSmall,
-        color = Color.Gray
-    )
-}
-
-@Composable
-fun estimatedTimeLabel(){
-    Text(
-        text = "FINNISHED AT 11:35 AM",
-        style = MaterialTheme.typography.labelSmall,
-        color = Color.Gray
-    )
-}
-
-@Composable
 fun currentTaskGroup(){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -347,6 +341,7 @@ fun currentTaskGroup(){
             color = Color.Gray
         )
 
+        //Name-Display der Task + Edit-Button
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -369,12 +364,16 @@ fun currentTaskGroup(){
     }
 }
 
+
 @Composable
 fun TimerButtonGroup(){
+    val openDialogCustom = remember{ mutableStateOf(false) }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
+        //Timer-Button
         Button(
             modifier = Modifier.size(width = 210.dp, height = 50.dp),
             onClick = { /*TODO*/ },
@@ -386,9 +385,9 @@ fun TimerButtonGroup(){
                 fontSize = 25.sp,
             )
         }
-
+        //Reset-Button
         TextButton(
-            onClick = { /*TODO*/ }
+            onClick = { openDialogCustom.value = true }
         ){
             Text(
                 text = "Reset",
@@ -396,37 +395,15 @@ fun TimerButtonGroup(){
             )
         }
     }
+
+    if (openDialogCustom.value) {
+        com.example.gysd.dialogs.ResetDialog(openDialogCustom = openDialogCustom)
+    }
 }
 
-@Composable
-fun TimerButton(){
-    Button(
-        modifier = Modifier.size(width = 210.dp, height = 50.dp),
-        onClick = { /*TODO*/ },
-        colors = ButtonDefaults.buttonColors(Color.Black),
-        shape = RoundedCornerShape(12.dp)
-    ){
-        Text(
-            text = "Start",
-            fontSize = 25.sp,
-        )
-    }
-}
-@Composable
-fun ResetButton(){
-    TextButton(
-        onClick = { /*TODO*/ }
-    ){
-        Text(
-            text = "Reset",
-            color = Color.Gray
-            )
-    }
-}
-@Preview(showBackground = true)
+
 @Composable
 fun TimerSettings(){
-
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
@@ -447,7 +424,64 @@ fun TimerSettings(){
             )
         }
     }
-
-
 }
+
+
+@Composable
+fun ResetDialog(
+    onDismiss:() -> Unit
+) {
+
+    Dialog(
+        onDismissRequest = onDismiss,
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+
+            ) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ){
+                Text(
+                    text = "This is a minimal dialog",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center),
+                    textAlign = TextAlign.Center,
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    TextButton(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier.padding(8.dp),
+                    ) {
+                        Text("Dismiss")
+                    }
+                    TextButton(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier.padding(8.dp),
+                    ) {
+                        Text("Confirm")
+                    }
+
+                }
+            }
+
+
+        }
+    }
+}
+
 
