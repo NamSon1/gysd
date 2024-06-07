@@ -368,6 +368,7 @@ fun currentTaskGroup(){
 @Composable
 fun TimerButtonGroup(){
     val openDialogCustom = remember{ mutableStateOf(false) }
+    val openDialogCustom2 = remember{ mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -397,7 +398,10 @@ fun TimerButtonGroup(){
     }
 
     if (openDialogCustom.value) {
-        com.example.gysd.dialogs.ResetDialog(openDialogCustom = openDialogCustom)
+        com.example.gysd.dialogs.ResetDialog(openDialogCustom = openDialogCustom, openDialogCustom2 = openDialogCustom2)
+    }
+    if (openDialogCustom2.value) {
+        com.example.gysd.dialogs.ResetTimerDialog(openDialogCustom2 = openDialogCustom2)
     }
 }
 
