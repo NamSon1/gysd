@@ -113,6 +113,15 @@ fun PomodoroScreen() {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
+                title = {
+                    Text("GYSD!")
+                },
+
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = backGroundgrey,
+                    titleContentColor = black,
+                ),
+
                 modifier = Modifier.drawBehind {
                     val strokeWidth = 100 * density
                     val y = size.height - strokeWidth / 2
@@ -125,14 +134,7 @@ fun PomodoroScreen() {
                     )
                 },
 
-                title = {
-                    Text("GYSD!")
-                },
 
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = backGroundgrey,
-                    titleContentColor = black,
-                ),
             )
         }
 
@@ -165,8 +167,6 @@ fun PomodoroScreen() {
         }
     }
 }
-
-
 
 /* Rechteck-Ersteller
 @Preview(showBackground = true)
@@ -420,7 +420,6 @@ fun TimerSettings(){
 
         IconButton(
             onClick = { /*TODO*/ }
-
         ){
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.timersettingsbuttonicon),

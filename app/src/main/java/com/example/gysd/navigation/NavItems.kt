@@ -27,6 +27,7 @@ val listOfNavItems : List<NavItem> = listOf(
         icon = Icons.Default.List,
         route = Screens.ToDoScreen.name
     ),
+    /*
     NavItem(
         label = "Calendar",
         icon = Icons.Default.DateRange,
@@ -37,6 +38,8 @@ val listOfNavItems : List<NavItem> = listOf(
         icon = Icons.Default.Share,
         route = Screens.StatisticsScreen.name
     ),
+
+     */
     NavItem(
         label = "Settings",
         icon = Icons.Default.Settings,
