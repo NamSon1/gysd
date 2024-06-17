@@ -407,6 +407,7 @@ fun TimerButtonGroup(){
         }
     }
 
+    // Prüft ob der Boolean getriggert wurde, für einen Dialogaufruf
     if (openDialogCustom.value) {
         com.example.gysd.dialogs.ResetDialog(openDialogCustom = openDialogCustom, openDialogCustom2 = openDialogCustom2)
     }

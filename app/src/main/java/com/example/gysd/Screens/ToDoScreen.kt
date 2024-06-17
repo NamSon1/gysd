@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +16,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -47,6 +53,57 @@ import androidx.compose.ui.unit.sp
 import com.example.gysd.navigation.NavItem
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var id_counter : Int = 3
+
+data class Task (
+    val titel : String,
+    val id : Int,
+    var progress : Boolean,
+)
+
+val listOfTasks : List<Task> = mutableListOf(
+    Task(
+        titel = "Hund füttern",
+        id = 0,
+        progress = false
+    ),
+    Task(
+        titel = "Einkaufen",
+        id = 1,
+        progress = false
+    ),
+    Task(
+        titel = "Müll rausbringen",
+        id = 2,
+        progress = false
+    ),
+    Task(
+        titel = "Auto tanken",
+        id = 3,
+        progress = false
+    ),
+    Task(
+        titel = "Steuern machen",
+        id = 4,
+        progress = false
+    ),
+    Task(
+        titel = "Pflanzen gießen",
+        id = 5,
+        progress = false
+    ),
+    Task(
+        titel = "Tonne reinbringen",
+        id = 6,
+        progress = false
+    ),
+)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -85,25 +142,72 @@ fun ToDoScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                TaskCard()
-                FloatingActionButton()
-            }
+                //TopBar = 56.dp
 
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+
+                    /*  - Box dient zum Angleichen der Liste an den Screen, da die TopBar
+                          den ersten Eintrag der Liste verdecken würde
+                    */
+                    Box(
+                        modifier = Modifier.size(45.dp)
+                    ) {
+
+                    }
+                    TaskList()
+                }
+            }
         }
     }
 }
 
 
-
 @Composable
 fun TaskList() {
     LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-    ){
-        listOfTasks
+    ) {
+        items(listOfTasks){
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                TaskCard(titel = it.titel)
+            }
+        }
+    }
+}
 
 
+@Composable
+fun TaskList2() {
+    LazyVerticalGrid(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalArrangement = Arrangement.Center,
+        columns = GridCells.Adaptive(128.dp),
+
+        contentPadding = PaddingValues(
+            start = 12.dp,
+            top = 13.dp,
+            end = 12.dp,
+            bottom = 13.dp
+        )
+    ) {
+        items(listOfTasks){
+            TaskCard(titel = it.titel)
+        }
     }
 }
 
@@ -119,50 +223,40 @@ fun CompletedTaskList() {
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-data class Task (
-    val titel : String,
-    val id : Int,
-    var progress : Boolean,
-)
-
-val listOfTasks : List<Task> = listOf(
-    Task(
-        titel = "Hund füttern",
-        id = 0,
-        progress = false
-    ),
-    Task(
-        titel = "Einkaufen",
-        id = 1,
-        progress = false
-    ),
-    Task(
-        titel = "Müll rausbringen",
-        id = 2,
-        progress = false
-    ),
-)
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-@Preview(showBackground = true)
 @Composable
-fun TaskCard() {
-    OutlinedCard(
-        shape = CardDefaults.outlinedShape,
-        modifier = Modifier
-            .size(height = 300.dp, width = 300.dp)
-            .padding(10.dp),
-        border = BorderStroke(1.dp, color = Color.Black),
-    ){
-        Column(
+fun TaskCard(titel: String) {
+    // State to handle click event
+    var showSubTask by remember { mutableStateOf(false) }
+
+    if (showSubTask) {
+        subTaskCard()
+    } else {
+        OutlinedCard(
+            shape = CardDefaults.outlinedShape,
+            modifier = Modifier
+                .size(height = 100.dp, width = 150.dp)
+                .padding(10.dp)
+                .clickable {
+                    showSubTask = true
+                },
+            border = BorderStroke(1.dp, color = Color.Black),
+        ) {
+            Text(
+                text = titel,
+                modifier = Modifier.padding(10.dp)
+            )
+        }
+    }
+}
+
+/*
+Column(
             verticalArrangement = Arrangement.Top,
             modifier = Modifier.padding(10.dp)
         ) {
-            Text(text = "Hallo", )
+            Text(text = "$titel" )
+
+
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
@@ -171,12 +265,32 @@ fun TaskCard() {
                 Text(text = "kacken")
             }
             NotizScreen()
+
+
         }
+ */
 
 
+@Preview(showBackground = true)
+@Composable
+fun subTaskCard(){
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.Blue)
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
 
+        ){
+        Text(
+            text = "Statistics Screen",
+            fontFamily = FontFamily.Serif,
+            fontSize = 22.sp
+        )
     }
 }
+
 
 
 @Composable
@@ -244,6 +358,5 @@ fun NotizScreen() {
         //BasicTextField(value = text2, onValueChange = { text2 = it }, modifier = modifier)
     }
 }
-
 
 

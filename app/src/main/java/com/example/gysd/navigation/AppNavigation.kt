@@ -76,7 +76,6 @@ fun AppNavigation() {
                     )
                 }
             }
-
         }
 
     ){ paddingValues ->
