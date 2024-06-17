@@ -203,7 +203,6 @@ fun FloatingActionButton(){
 }
 
 
-@Preview(showBackground = true)
 @Composable
 fun BasicTextFieldDemo() {
     var textState by remember { mutableStateOf(TextFieldValue("Hello World")) }
@@ -236,6 +235,11 @@ fun NotizScreen() {
             .background(backGroundgrey)
             .padding(16.dp)
 
+        /*
+            - Textfeld so groß wie der Screen
+            - Screen-Größe -> MaxLines / minLines von BasicTextField
+            - https://www.youtube.com/watch?v=srp2d3_ofRU
+        */
         BasicTextField(value = text1, onValueChange = { text1 = it }, modifier = modifier,)
         //BasicTextField(value = text2, onValueChange = { text2 = it }, modifier = modifier)
     }
