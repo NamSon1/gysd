@@ -68,7 +68,6 @@ fun AppNavigation() {
                                Icon(
                                    imageVector = navItem.icon,
                                    contentDescription = null,
-                                   //Modifier.paint(painterResource(id = R.drawable.clock_png))
                                )
                         },
                         label = {

@@ -79,6 +79,8 @@ import kotlin.math.min
 @Composable
 fun PomodoroScreen() {
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
     //Speichern der Zeiteinheiten als State
     var hour by remember { mutableStateOf("0") }
     var minute by remember { mutableStateOf("0") }
@@ -89,6 +91,7 @@ fun PomodoroScreen() {
         - Logik für die Anzeige der Zeit für das Composable "DigitalClockComponent"
         - muss noch verlagert werden (nach MVVM)
     */
+
     LaunchedEffect(Unit) {
         while (true) {
             val cal = Calendar.getInstance()
@@ -109,12 +112,19 @@ fun PomodoroScreen() {
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     //Hauptstruktur für den Screen
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text("GYSD!")
+                    Text(
+                        "Pomodoro",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
                 },
 
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -181,15 +191,12 @@ fun ExampleBox(){
     }
 }
 
-//erstellt schwarze Linie
-Divider (
-                color = Color.Black,
-                modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth()
-            )
-
+// Erstellt schwarze Linie
+Divider (color = Color.Black, modifier = Modifier.height(1.dp).fillMaxWidth())
 */
+
+
+
 
 @Composable
 fun ModusTaskButton_Group(){
@@ -303,6 +310,7 @@ fun AnalogClockComponent(hour : Int, minute : Int, second : Int) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 data class ToggleableInfo(
     val isChecked : Boolean,
@@ -326,6 +334,8 @@ private fun MySwitch(){
         }
     )
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 @Composable
@@ -434,7 +444,6 @@ fun TimerSettings(){
 fun ResetDialog(
     onDismiss:() -> Unit
 ) {
-
     Dialog(
         onDismissRequest = onDismiss,
     ) {
