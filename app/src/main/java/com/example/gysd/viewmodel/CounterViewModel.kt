@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,7 +19,7 @@ import kotlinx.coroutines.launch
 //  MVVM-Beispiel ohne Model
 
 //ViewModel
-class CounterViewModel : ViewModel() {
+class CounterViewModel(repository: CounterRepository2) : ViewModel() {
     // Private mutable state flow
     private val _counter = MutableStateFlow(0)
 

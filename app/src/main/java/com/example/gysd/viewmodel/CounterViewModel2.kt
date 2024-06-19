@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,7 +22,7 @@ class CounterRepository2 {
     private val _counter = MutableStateFlow(0)
 
     // Public state flow
-    val counter: Flow<Int> get() = _counter
+    val counter: StateFlow<Int> get() = _counter
 
     // Function to increment the counter
     fun incrementCounter() {
@@ -49,9 +48,9 @@ class CounterViewModel2(private val repository: CounterRepository2) : ViewModel(
 //  ViewModel Factory
 class CounterViewModelFactory2(private val repository: CounterRepository2) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CounterViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(CounterViewModel2::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return CounterViewModel(repository) as T
+            return CounterViewModel2(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
@@ -60,7 +59,7 @@ class CounterViewModelFactory2(private val repository: CounterRepository2) : Vie
 
 //  View
 @Composable
-fun CounterScreen2(counterViewModel: CounterViewModel = viewModel(factory = CounterViewModelFactory2(CounterRepository2()))) {
+fun CounterScreen2(counterViewModel: CounterViewModel2 = viewModel(factory = CounterViewModelFactory2(CounterRepository2()))) {
     // Collect the counter state
     val counter = counterViewModel.counter.collectAsState()
 

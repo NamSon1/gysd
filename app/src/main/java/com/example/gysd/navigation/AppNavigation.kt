@@ -28,6 +28,7 @@ import com.example.gysd.Screens.PomodoroScreen
 import com.example.gysd.Screens.SettingsScreen
 import com.example.gysd.Screens.StatisticsScreen
 import com.example.gysd.Screens.ToDoScreen
+import com.example.gysd.viewmodel.CounterScreen2
 import com.google.android.material.theme.overlay.MaterialThemeOverlay
 
 
@@ -95,7 +96,8 @@ fun AppNavigation() {
             */
 
             composable(route = Screens.PomodoroScreen.name) {
-                com.example.gysd.Screens.PomodoroScreen()
+                //com.example.gysd.Screens.PomodoroScreen()
+                CounterScreen2()
             }
             composable(route = Screens.ToDoScreen.name) {
                 com.example.gysd.Screens.ToDoScreen()
