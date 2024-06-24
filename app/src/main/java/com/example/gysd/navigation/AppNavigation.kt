@@ -96,8 +96,7 @@ fun AppNavigation() {
             */
 
             composable(route = Screens.PomodoroScreen.name) {
-                //com.example.gysd.Screens.PomodoroScreen()
-                CounterScreen2()
+                com.example.gysd.Screens.PomodoroScreen()
             }
             composable(route = Screens.ToDoScreen.name) {
                 com.example.gysd.Screens.ToDoScreen()
