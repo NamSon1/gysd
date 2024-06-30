@@ -141,7 +141,9 @@ fun ToDoScreen() {
                         )
                     }
                 )
-            }
+            },
+
+            bottomBar = { BottomAppBar() }
         ){
             Column(
                 Modifier
@@ -161,15 +163,10 @@ fun ToDoScreen() {
                     /*  - Box dient zum Angleichen der Liste an den Screen, da die TopBar
                           den ersten Eintrag der Liste verdecken würde
                     */
-                    Box(
-                        modifier = Modifier.size(45.dp)
-                    ) {
-
-                    }
+                    Box(modifier = Modifier.size(45.dp))
                     TaskList2()
                 }
             }
-            BottomAppBar()
         }
     }
 }
@@ -269,27 +266,6 @@ fun TaskCard(titel: String) {
         }
     }
 }
-
-/*
-Column(
-            verticalArrangement = Arrangement.Top,
-            modifier = Modifier.padding(10.dp)
-        ) {
-            Text(text = "$titel" )
-
-
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Checkbox()
-                Text(text = "kacken")
-            }
-            NotizScreen()
-
-
-        }
- */
 
 
 @Preview(showBackground = true)

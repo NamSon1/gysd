@@ -24,14 +24,12 @@ import android.content.Context
 import androidx.compose.ui.platform.LocalContext
 
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
 @Preview(showBackground = true)
 @Composable
 fun BottomAppBar() {
     val context = LocalContext.current
 
-    Scaffold(
-        bottomBar = {
             androidx.compose.material3.BottomAppBar(
                 actions = {
                     IconButton(onClick = { /*TODO*/ }) {
@@ -64,10 +62,7 @@ fun BottomAppBar() {
                     }
                 }
             )
-        }
-    ) {
 
-    }
 }
 
 
