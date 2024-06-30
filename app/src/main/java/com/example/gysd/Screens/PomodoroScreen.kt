@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.gysd.R
 import com.example.gysd.navigation.AppNavigation
+import com.example.gysd.navigation.Screens
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
 import kotlinx.coroutines.delay
@@ -117,37 +118,24 @@ fun PomodoroScreen() {
     //Hauptstruktur für den Screen
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Pomodoro",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                    )
-                },
-
+            TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = backGroundgrey,
                     titleContentColor = black,
                 ),
-
-                modifier = Modifier.drawBehind {
-                    val strokeWidth = 100 * density
-                    val y = size.height - strokeWidth / 2
-
-                    drawLine(
-                        Color.LightGray,
-                        Offset(0f, y),
-                        Offset(size.width, y),
-                        strokeWidth
+                title = {
+                    Text(
+                        text = "Pomodoro",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = Color.Black
                     )
-                },
-
-
+                }
             )
         }
-
     ){
         //Hauptstruktur: Anordung aller Elemente und Elementgruppen in einer Spalte (Column)
         Column(

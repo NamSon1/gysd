@@ -1,19 +1,26 @@
 package com.example.gysd.navigation
 
 import android.graphics.Color
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -28,10 +35,13 @@ import com.example.gysd.Screens.PomodoroScreen
 import com.example.gysd.Screens.SettingsScreen
 import com.example.gysd.Screens.StatisticsScreen
 import com.example.gysd.Screens.ToDoScreen
+import com.example.gysd.ui.theme.backGroundgrey
+import com.example.gysd.ui.theme.black
 import com.example.gysd.viewmodel.CounterScreen2
 import com.google.android.material.theme.overlay.MaterialThemeOverlay
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun AppNavigation() {
@@ -77,7 +87,7 @@ fun AppNavigation() {
                     )
                 }
             }
-        }
+        },
 
     ){ paddingValues ->
 

@@ -34,6 +34,7 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,9 +48,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gysd.BottomAppBar
 import com.example.gysd.navigation.NavItem
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
@@ -65,6 +68,7 @@ data class Task (
     var progress : Boolean,
 )
 
+// nicht nullable Liste mit vorgefertigten Listeneinträgen
 val listOfTasks : List<Task> = mutableListOf(
     Task(
         titel = "Hund füttern",
@@ -103,6 +107,9 @@ val listOfTasks : List<Task> = mutableListOf(
     ),
 )
 
+// nullable Liste
+val listOfTasks2: MutableList<Task>? = mutableListOf()
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -117,20 +124,22 @@ fun ToDoScreen() {
     ){
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            "ToDo",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    },
-
+                TopAppBar(
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = backGroundgrey,
                         titleContentColor = black,
                     ),
+                    title = {
+                        Text(
+                            text = "To Do",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth(),
+                            color = Color.Black
+                        )
+                    }
                 )
             }
         ){
@@ -157,13 +166,19 @@ fun ToDoScreen() {
                     ) {
 
                     }
-                    TaskList()
+                    TaskList2()
                 }
             }
+            BottomAppBar()
         }
     }
 }
 
+
+/*
+    - Taskliste mit einer Liste mit vorgefertigten Einträgen
+    - die Liste kann nicht null sein
+*/
 
 @Composable
 fun TaskList() {
@@ -188,6 +203,10 @@ fun TaskList() {
 }
 
 
+/*
+    - Taskliste mit einer Liste die auch leer sein kann
+*/
+
 @Composable
 fun TaskList2() {
     LazyVerticalGrid(
@@ -205,8 +224,10 @@ fun TaskList2() {
             bottom = 13.dp
         )
     ) {
-        items(listOfTasks){
-            TaskCard(titel = it.titel)
+        listOfTasks2?.let { tasks ->
+            items(tasks) { task ->
+                TaskCard(titel = task.titel)
+            }
         }
     }
 }
