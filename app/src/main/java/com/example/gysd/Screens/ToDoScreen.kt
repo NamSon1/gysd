@@ -137,7 +137,7 @@ fun ToDoScreen() {
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
-                            color = Color.Black
+                            //color = Color.Black
                         )
                     }
                 )
@@ -268,7 +268,6 @@ fun TaskCard(titel: String) {
 }
 
 
-@Preview(showBackground = true)
 @Composable
 fun subTaskCard(){
     Column(

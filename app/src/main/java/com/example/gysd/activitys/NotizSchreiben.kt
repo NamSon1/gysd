@@ -91,7 +91,6 @@ fun NoteScreen() {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-
         ) {
 
             /*  - Box dient zum Angleichen der Liste an den Screen, da die TopBar

@@ -3,17 +3,44 @@ package com.example.gysd.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.gysd.database.NoteDao
+import com.example.gysd.database.NoteEntity
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class NoteViewModel : ViewModel() {
+class NoteViewModel @Inject constructor(
+    private val noteDao : NoteDao,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
     var noteText by mutableStateOf("")
     var titleText by mutableStateOf("")
+    var noteId: Int? = savedStateHandle.get<Int>("noteId")
 
-    // You can add functions here to handle saving/loading data,
-    // performing network requests, etc.
+    init {
+        if (noteId != null) {
+            // Fetch existing note details from the database
+            viewModelScope.launch {
+                val note = noteDao.getNoteById(noteId!!)
+                noteText = note.content
+                titleText = note.title
+            }
+        }
+    }
 
     fun saveNote() {
-        // Use a repository or data source to save the noteText and titleText
+        viewModelScope.launch {
+            if (noteId == null) {
+                // Insert new note
+                noteDao.insertNote(NoteEntity(title = titleText, content = noteText))
+            } else {
+                // Update existing note
+                noteDao.updateNote(NoteEntity(id = noteId!!, title = titleText, content = noteText))
+            }
+        }
     }
 }
