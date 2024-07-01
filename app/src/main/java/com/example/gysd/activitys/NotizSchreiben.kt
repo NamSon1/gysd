@@ -49,8 +49,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.gysd.BottomAppBar
 import com.example.gysd.R
+import com.example.gysd.database.AppDatabase
 import com.example.gysd.navigation.AppNavigation
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
@@ -80,6 +83,8 @@ class NotizSchreiben : ComponentActivity() {
 @Composable
 fun NoteScreen() {
     val noteViewModel: NoteViewModel = viewModel()
+
+
 
     Scaffold(
         topBar = { TopBarDetail() },

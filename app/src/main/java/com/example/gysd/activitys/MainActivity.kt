@@ -14,12 +14,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.gysd.ui.theme.GysdTheme
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
+import com.example.gysd.database.AppDatabase
 import com.example.gysd.navigation.AppNavigation
+import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val context = this
+
+        lifecycleScope.launch{
+            val debugTag = "roomDB"
+            //val repository =
+            val tableData = AppDatabase(
+                id = 1,
+                title = "Wäsche",
+                content = "waschen und falten"
+            )
+
+            /*
+                - Initialisieren und die Database-Repository bauen (PDF des Workshops schauen)
+             */
+        }
+
         setContent {
             GysdTheme {
                 // A surface container using the 'background' color from the theme

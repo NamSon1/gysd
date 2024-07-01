@@ -303,14 +303,6 @@ fun Checkbox() {
     })
 }
 
-@Composable
-fun FloatingActionButton(){
-    androidx.compose.material3.FloatingActionButton(
-        onClick = { /*TODO*/ }
-    ) {
-        Icon(imageVector = Icons.Filled.Add, contentDescription = "Fügt Task hinzu")
-    }
-}
 
 
 @Composable
@@ -325,6 +317,7 @@ fun BasicTextFieldDemo() {
 }
 
 
+// wird nicht verwendet (ersetzt von NotizSchreiben.kt)
 @Composable
 fun NotizScreen() {
     Column(
@@ -351,7 +344,6 @@ fun NotizScreen() {
             - https://www.youtube.com/watch?v=srp2d3_ofRU
         */
         BasicTextField(value = text1, onValueChange = { text1 = it }, modifier = modifier,)
-        //BasicTextField(value = text2, onValueChange = { text2 = it }, modifier = modifier)
     }
 }
 
