@@ -16,6 +16,8 @@ import com.example.gysd.ui.theme.GysdTheme
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.example.gysd.database.AppDatabase
+import com.example.gysd.database.NoteEntity
+import com.example.gysd.database.NoteRepository
 import com.example.gysd.navigation.AppNavigation
 import kotlinx.coroutines.launch
 
@@ -26,19 +28,31 @@ class MainActivity : ComponentActivity() {
 
         val context = this
 
-        lifecycleScope.launch{
+        /*
+        lifecycleScope.launch {
             val debugTag = "roomDB"
-            //val repository =
-            val tableData = AppDatabase(
+
+            // Get an instance of the database
+            val db = AppDatabase.getDatabase(context)
+
+            // Create an instance of your repository (assuming you have a NoteRepository class)
+            val repository = NoteRepository(db.noteDao())
+
+            // Insert the initial data (if needed)
+            val tableData = NoteEntity(
                 id = 1,
                 title = "Wäsche",
                 content = "waschen und falten"
             )
+            repository.insertNote(tableData)
 
-            /*
-                - Initialisieren und die Database-Repository bauen (PDF des Workshops schauen)
-             */
+            // Now you can use the repository to interact with the database
+            // For example, to fetch all notes:
+            val allNotes = repository.getAllNotes()
+            // ... use the allNotes Flow to observe and display data in your UI
         }
+
+         */
 
         setContent {
             GysdTheme {
