@@ -166,25 +166,6 @@ fun PomodoroScreen() {
     }
 }
 
-/* Rechteck-Ersteller
-@Preview(showBackground = true)
-@Composable
-fun ExampleBox(){
-    Canvas(modifier = Modifier.fillMaxSize()) {
-        val canvasQuadrantSize = size / 2F
-        drawRect(
-            color = Color.Magenta,
-            size = canvasQuadrantSize
-        )
-    }
-}
-
-// Erstellt schwarze Linie
-Divider (color = Color.Black, modifier = Modifier.height(1.dp).fillMaxWidth())
-*/
-
-
-
 
 @Composable
 fun ModusTaskButton_Group(){

@@ -52,10 +52,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.gysd.BottomAppBar
+import com.example.gysd.database.NoteEntity
 import com.example.gysd.navigation.NavItem
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
+import com.example.gysd.viewmodel.NoteViewModel
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,9 +118,13 @@ val listOfTasks2: MutableList<Task>? = mutableListOf()
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun ToDoScreen() {
+fun ToDoScreen(noteViewModel: NoteViewModel) {
+    val initialNoteEntities = listOfTasks.map { task ->
+        NoteEntity(title = task.titel, content = "") // Map Task to NoteEntity
+    }
+    val tasks by noteViewModel.allTasks.collectAsStateWithLifecycle(initialNoteEntities)
+
     Box(modifier = Modifier
         .fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -145,6 +152,7 @@ fun ToDoScreen() {
 
             bottomBar = { BottomAppBar() }
         ){
+            /*
             Column(
                 Modifier
                     .fillMaxSize()
@@ -155,7 +163,7 @@ fun ToDoScreen() {
             ) {
                 //TopBar = 56.dp
 
-                Column(
+                Column(now i have the displaying-
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -167,6 +175,28 @@ fun ToDoScreen() {
                     TaskList2()
                 }
             }
+
+             */
+
+            LazyVerticalGrid(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Center,
+                columns = GridCells.Adaptive(128.dp),
+                contentPadding = PaddingValues(
+                    start = 12.dp,
+                    top = 13.dp,
+                    end = 12.dp,
+                    bottom = 13.dp
+                )
+            ) {
+                items(tasks) { task ->
+                    TaskCard(titel = task.title)
+                }
+            }
+
         }
     }
 }
