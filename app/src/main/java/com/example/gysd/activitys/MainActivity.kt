@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
 
         val context = this
 
+        /*
         lifecycleScope.launch{
             val debugTag = "roomDB"
             //val repository =
@@ -39,6 +40,8 @@ class MainActivity : ComponentActivity() {
                 - Initialisieren und die Database-Repository bauen (PDF des Workshops schauen)
              */
         }
+
+         */
 
         setContent {
             GysdTheme {
