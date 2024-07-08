@@ -2,7 +2,6 @@ package com.example.gysd.Screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,14 +19,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
@@ -44,7 +36,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -52,13 +43,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.gysd.BottomAppBar
-import com.example.gysd.database.NoteEntity
-import com.example.gysd.navigation.NavItem
+import com.example.gysd.AppBars.BottomAppBar
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
-import com.example.gysd.viewmodel.NoteViewModel
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,85 +105,54 @@ val listOfTasks2: MutableList<Task>? = mutableListOf()
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
 @Composable
-fun ToDoScreen(noteViewModel: NoteViewModel) {
-    val initialNoteEntities = listOfTasks.map { task ->
-        NoteEntity(title = task.titel, content = "") // Map Task to NoteEntity
-    }
-    val tasks by noteViewModel.allTasks.collectAsStateWithLifecycle(initialNoteEntities)
+fun ToDoScreen() {
 
-    Box(modifier = Modifier
-        .fillMaxSize(),
-        contentAlignment = Alignment.Center
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = backGroundgrey,
+                    titleContentColor = black,
+                ),
+                title = {
+                    Text(
+                        text = "To Do",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        //color = Color.Black
+                    )
+                }
+            )
+        },
+
+        bottomBar = { BottomAppBar() }
     ){
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = backGroundgrey,
-                        titleContentColor = black,
-                    ),
-                    title = {
-                        Text(
-                            text = "To Do",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth(),
-                            //color = Color.Black
-                        )
-                    }
-                )
-            },
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(backGroundgrey)
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            //TopBar = 56.dp
 
-            bottomBar = { BottomAppBar() }
-        ){
-            /*
             Column(
-                Modifier
-                    .fillMaxSize()
-                    .background(backGroundgrey)
-                    .padding(20.dp),
+                verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
             ) {
-                //TopBar = 56.dp
 
-                Column(now i have the displaying-
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-
-                    /*  - Box dient zum Angleichen der Liste an den Screen, da die TopBar
-                          den ersten Eintrag der Liste verdecken würde
-                    */
-                    Box(modifier = Modifier.size(45.dp))
-                    TaskList2()
-                }
+                /*  - Box dient zum Angleichen der Liste an den Screen, da die TopBar
+                      den ersten Eintrag der Liste verdecken würde
+                */
+                Box(modifier = Modifier.size(45.dp))
+                TaskList2()
             }
-
-             */
-
-            LazyVerticalGrid(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(10.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalArrangement = Arrangement.Center,
-                columns = GridCells.Adaptive(128.dp),
-                contentPadding = PaddingValues(
-                    start = 12.dp,
-                    top = 13.dp,
-                    end = 12.dp,
-                    bottom = 13.dp
-                )
-            ) {
-                items(tasks) { task ->
-                    TaskCard(titel = task.title)
-                }
-            }
-
         }
     }
 }

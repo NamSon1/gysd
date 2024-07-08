@@ -1,4 +1,4 @@
-package com.example.gysd.activitys
+package com.example.gysd.subScreens
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,8 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,15 +43,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.example.gysd.BottomAppBar
+import com.example.gysd.AppBars.BottomAppBar
 import com.example.gysd.R
-import com.example.gysd.database.AppDatabase
-import com.example.gysd.navigation.AppNavigation
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
 import com.example.gysd.viewmodel.NoteViewModel
@@ -83,8 +75,6 @@ class NotizSchreiben : ComponentActivity() {
 @Composable
 fun NoteScreen() {
     val noteViewModel: NoteViewModel = viewModel()
-
-
 
     Scaffold(
         topBar = { TopBarDetail() },
