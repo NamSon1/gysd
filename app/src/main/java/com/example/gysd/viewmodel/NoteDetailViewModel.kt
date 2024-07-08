@@ -26,7 +26,7 @@ class NoteViewModel @Inject constructor(
 
     var noteText by mutableStateOf("")
     var titleText by mutableStateOf("")
-    var noteId: Int? = savedStateHandle.get<Int>("noteId")
+    private var noteId: Int? = savedStateHandle.get<Int>("noteId")
 
     init {
         if (noteId != null) {
@@ -52,13 +52,14 @@ class NoteViewModel @Inject constructor(
     //val allTasks: Flow<List<NoteEntity>> = noteRepository.getAllNotes()
 
     val allTasks: Flow<List<NoteEntity>> = flowOf(listOfTasks.map {
-        NoteEntity(title = it.titel, content = "") // Map Task to NoteEntity
+        // Map Task to NoteEntity - Umwandlung der Listeneinträge zu Datenbankeinträgen
+        NoteEntity(title = it.titel, content = "")
     }).flatMapLatest { initialTasks ->
         noteRepository.getAllNotes().map { dbTasks ->
-            initialTasks + dbTasks // Combine initial and database tasks
+            // Combine initial and database tasks
+            initialTasks + dbTasks
         }
     }
-
 }
 
 

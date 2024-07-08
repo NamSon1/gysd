@@ -28,7 +28,6 @@ class MainActivity : ComponentActivity() {
 
         val context = this
 
-        /*
         lifecycleScope.launch {
             val debugTag = "roomDB"
 
@@ -52,7 +51,7 @@ class MainActivity : ComponentActivity() {
             // ... use the allNotes Flow to observe and display data in your UI
         }
 
-         */
+
 
         setContent {
             GysdTheme {

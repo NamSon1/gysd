@@ -48,7 +48,7 @@ interface NoteDao {
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 
-    abstract fun getDao(): NoteDao
+    //abstract fun getDao(): NoteDao
 
     // Companion Object -- nur eine Instanz der Database kann erstellt werden
     companion object {
