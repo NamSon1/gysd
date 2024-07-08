@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.gysd.R
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
@@ -33,7 +34,7 @@ import com.example.gysd.ui.theme.black
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TopBarDetail() {
+fun TopBarDetail(navController: NavController) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = backGroundgrey,
@@ -44,11 +45,7 @@ fun TopBarDetail() {
             val context = LocalContext.current
             var finishActivity by remember { mutableStateOf(false) }
 
-            if (finishActivity) {
-                LaunchedEffect(Unit) { // Trigger the side effect when finishActivity is true
-                    (context as? Activity)?.finish()
-                }
-            }
+            navController.popBackStack()
 
             IconButton(
                 onClick = {

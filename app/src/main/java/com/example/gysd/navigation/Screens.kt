@@ -5,5 +5,6 @@ enum class Screens {
     ToDoScreen,
     CalendarScreen,
     StatisticsScreen,
-    SettingsScreen
+    SettingsScreen,
+    NotizSchreibenScreen,
 }

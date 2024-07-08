@@ -6,7 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.gysd.Screens.listOfTasks
 import com.example.gysd.database.NoteDao
 import com.example.gysd.database.NoteEntity
@@ -19,7 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class NoteViewModel @Inject constructor(
+class NoteViewModel (
     private val noteRepository: NoteRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -64,10 +66,11 @@ class NoteViewModel @Inject constructor(
 
 
 class NoteViewModelFactory(private val repository: NoteRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         if (modelClass.isAssignableFrom(NoteViewModel::class.java)) {
+            val savedStateHandle = extras.createSavedStateHandle()
             @Suppress("UNCHECKED_CAST")
-            return NoteViewModel(repository, SavedStateHandle()) as T
+            return NoteViewModel(repository, savedStateHandle) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

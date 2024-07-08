@@ -3,8 +3,10 @@ package com.example.gysd.database
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
+import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.PrimaryKey
@@ -31,6 +33,12 @@ interface NoteDao {
     @Insert
     suspend fun insertNote(note : NoteEntity)
 
+    @Update
+    suspend fun update(note: NoteEntity)
+
+    @Delete
+    suspend fun delete(note: NoteEntity)
+
     // für die Darstellung der Notizliste im To Do-Screen
     @Query("SELECT * FROM NoteEntity")
     fun getAllNotes(): Flow<List<NoteEntity>>
@@ -47,8 +55,6 @@ interface NoteDao {
 @Database(entities = [NoteEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
-
-    //abstract fun getDao(): NoteDao
 
     // Companion Object -- nur eine Instanz der Database kann erstellt werden
     companion object {
@@ -75,7 +81,8 @@ abstract class AppDatabase : RoomDatabase() {
 
 
 // Database Repository
-class NoteRepository @Inject constructor(private val noteDao: NoteDao) {
+class NoteRepository (context: Context) {
+    private val noteDao = AppDatabase.getDatabase(context).noteDao()
 
     fun getAllNotes(): Flow<List<NoteEntity>> {
         return noteDao.getAllNotes()

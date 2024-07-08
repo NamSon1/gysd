@@ -85,11 +85,14 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("javax.inject:javax.inject:1")
+    kapt ("android.arch.persistence.room:compiler:1.1.1")
 
     //implementation("com.google.dagger:hilt-android:2.44")
     //kapt("com.google.dagger:hilt-android-compiler:2.44")
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+
 
     //implementation ("com.google.android.material:material:1.12.0")
     //implementation ("androidx.compose.material:material:1.5.4")

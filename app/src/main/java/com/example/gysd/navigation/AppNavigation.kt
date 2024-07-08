@@ -1,27 +1,17 @@
 package com.example.gysd.navigation
 
-import android.graphics.Color
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -31,34 +21,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.gysd.R
-import com.example.gysd.Screens.CalendarScreen
-import com.example.gysd.Screens.PomodoroScreen
-import com.example.gysd.Screens.SettingsScreen
-import com.example.gysd.Screens.StatisticsScreen
-import com.example.gysd.Screens.ToDoScreen
 import com.example.gysd.database.AppDatabase
 import com.example.gysd.database.NoteRepository
-import com.example.gysd.ui.theme.backGroundgrey
-import com.example.gysd.ui.theme.black
-import com.example.gysd.viewmodel.CounterScreen2
+import com.example.gysd.subScreens.NotizSchreibenScreen
 import com.example.gysd.viewmodel.NoteViewModel
 import com.example.gysd.viewmodel.NoteViewModelFactory
-import com.google.android.material.theme.overlay.MaterialThemeOverlay
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
 fun AppNavigation() {
-    //Erstellen des NavControllers
     val navController : NavHostController = rememberNavController()
 
-    // Initialize NoteViewModel here
+    // Initialize NoteViewModel
     val context = LocalContext.current
     val noteViewModel: NoteViewModel = viewModel(
         factory = NoteViewModelFactory(
-            NoteRepository(AppDatabase.getDatabase(context).noteDao())
+            NoteRepository(context)
         )
     )
 
@@ -120,19 +99,23 @@ fun AppNavigation() {
             */
 
             composable(route = Screens.PomodoroScreen.name) {
-                com.example.gysd.Screens.PomodoroScreen()
+                com.example.gysd.Screens.PomodoroScreen(navController)
             }
             composable(route = Screens.ToDoScreen.name) {
-                com.example.gysd.Screens.ToDoScreen(noteViewModel)
+                com.example.gysd.Screens.ToDoScreen(noteViewModel, navController)
             }
             composable(route = Screens.CalendarScreen.name) {
-                com.example.gysd.Screens.CalendarScreen()
+                com.example.gysd.Screens.CalendarScreen(navController)
             }
             composable(route = Screens.StatisticsScreen.name) {
-                com.example.gysd.Screens.StatisticsScreen()
+                com.example.gysd.Screens.StatisticsScreen(navController)
             }
             composable(route = Screens.SettingsScreen.name) {
-                com.example.gysd.Screens.SettingsScreen()
+                com.example.gysd.Screens.SettingsScreen(navController)
+            }
+
+            composable(route = Screens.NotizSchreibenScreen.name) {
+                NotizSchreibenScreen(noteViewModel, navController) // Pass NoteViewModel if needed
             }
         }
     }

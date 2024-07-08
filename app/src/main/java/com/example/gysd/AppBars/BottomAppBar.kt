@@ -1,7 +1,6 @@
 package com.example.gysd.AppBars
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
@@ -15,15 +14,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.gysd.subScreens.NotizSchreiben
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import com.example.gysd.R
+import com.example.gysd.navigation.Screens
+import com.example.gysd.subScreens.NotizSchreibenScreen
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
-@Preview(showBackground = true)
 @Composable
-fun BottomAppBar() {
+fun BottomAppBar(navController: NavController) {
     val context = LocalContext.current
 
             androidx.compose.material3.BottomAppBar(
@@ -48,8 +48,7 @@ fun BottomAppBar() {
                 floatingActionButton = {
                     FloatingActionButton(
                         onClick = {
-                            val intent = Intent(context, NotizSchreiben::class.java)
-                            context.startActivity(intent)
+                            navController.navigate(Screens.NotizSchreibenScreen.name)
                         },
                         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()

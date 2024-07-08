@@ -1,47 +1,50 @@
-package com.example.gysd.activitys
+package com.example.gysd
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.gysd.ui.theme.GysdTheme
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import com.example.gysd.Screens.listOfTasks2
+import com.example.gysd.ui.theme.GysdTheme
 import com.example.gysd.database.AppDatabase
+import com.example.gysd.database.NoteEntity
+import com.example.gysd.database.NoteRepository
 import com.example.gysd.navigation.AppNavigation
 import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity() {
+    //private lateinit var database: AppDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //database = AppDatabase.getDatabase(this)
+        /*
+        database = AppDatabase.getDatabase(this)
+
         val context = this
 
-        /*
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             val debugTag = "roomDB"
-            //val repository =
-            val tableData = AppDatabase(
+            val repository = NoteRepository(context)
+            val testData = NoteEntity(
                 id = 1,
-                title = "Wäsche",
-                content = "waschen und falten"
+                title = "Kalender",
+                content = "01.01.1990"
             )
 
-            /*
-                - Initialisieren und die Database-Repository bauen (PDF des Workshops schauen)
-             */
+            Log.d(debugTag, "Database created")
+            repository.insertNote(testData)
         }
 
          */
+
+
 
         setContent {
             GysdTheme {
@@ -50,14 +53,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //Greeting("Michael")
                     AppNavigation()
                 }
             }
         }
     }
 }
-
 
 
 

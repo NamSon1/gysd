@@ -43,9 +43,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.gysd.AppBars.BottomAppBar
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
+import com.example.gysd.viewmodel.NoteViewModel
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,9 +107,8 @@ val listOfTasks2: MutableList<Task>? = mutableListOf()
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun ToDoScreen() {
+fun ToDoScreen(noteViewModel: NoteViewModel, navController: NavController) {
 
     Scaffold(
         topBar = {
@@ -130,7 +131,7 @@ fun ToDoScreen() {
             )
         },
 
-        bottomBar = { BottomAppBar() }
+        bottomBar = { BottomAppBar(navController) }
     ){
         Column(
             Modifier
@@ -216,24 +217,13 @@ fun TaskList2() {
 }
 
 
-
-@Composable
-fun CompletedTaskList() {
-    Surface(
-        onClick = { /*TODO*/ }
-    ){
-        
-    }
-}
-
-
 @Composable
 fun TaskCard(titel: String) {
     // State to handle click event
     var showSubTask by remember { mutableStateOf(false) }
 
     if (showSubTask) {
-        subTaskCard()
+        showSubTask
     } else {
         OutlinedCard(
             shape = CardDefaults.outlinedShape,
