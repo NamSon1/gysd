@@ -1,8 +1,7 @@
-package com.example.gysd
+package com.example.gysd.AppBars
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
@@ -12,16 +11,13 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.gysd.activitys.NotizSchreiben
-import com.google.android.material.bottomappbar.BottomAppBar
-import android.content.Context
+import com.example.gysd.subScreens.NotizSchreiben
 import androidx.compose.ui.platform.LocalContext
+import com.example.gysd.R
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
