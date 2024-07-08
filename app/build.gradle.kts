@@ -80,12 +80,15 @@ dependencies {
     implementation ("androidx.compose.ui:ui-tooling-preview:1.6.8")
     implementation ("androidx.navigation:navigation-compose:2.7.7")
 
-    val roomVersion = "2.6.1"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    implementation("javax.inject:javax.inject:1")
-    kapt ("android.arch.persistence.room:compiler:1.1.1")
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+// optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
 
     //implementation("com.google.dagger:hilt-android:2.44")
     //kapt("com.google.dagger:hilt-android-compiler:2.44")
