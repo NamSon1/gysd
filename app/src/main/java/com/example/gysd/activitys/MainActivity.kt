@@ -24,6 +24,25 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val context = this
+
+        /*
+        lifecycleScope.launch{
+            val debugTag = "roomDB"
+            //val repository =
+            val tableData = AppDatabase(
+                id = 1,
+                title = "Wäsche",
+                content = "waschen und falten"
+            )
+
+            /*
+                - Initialisieren und die Database-Repository bauen (PDF des Workshops schauen)
+             */
+        }
+
+         */
+
         setContent {
             GysdTheme {
                 // A surface container using the 'background' color from the theme
@@ -31,6 +50,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    //Greeting("Michael")
                     AppNavigation()
                 }
             }
