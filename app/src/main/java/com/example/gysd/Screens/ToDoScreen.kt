@@ -24,12 +24,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,12 +47,12 @@ import androidx.navigation.NavController
 import com.example.gysd.AppBars.BottomAppBar
 import com.example.gysd.ui.theme.backGroundgrey
 import com.example.gysd.ui.theme.black
+import com.example.gysd.uiState.ToDoEntry
+import com.example.gysd.uiState.ToDoEntryState
 import com.example.gysd.viewmodel.NoteViewModel
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-var id_counter : Int = 3
 
 data class Task (
     val titel : String,
@@ -109,7 +109,6 @@ val listOfTasks2: MutableList<Task>? = mutableListOf()
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToDoScreen(noteViewModel: NoteViewModel, navController: NavController) {
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -130,7 +129,6 @@ fun ToDoScreen(noteViewModel: NoteViewModel, navController: NavController) {
                 }
             )
         },
-
         bottomBar = { BottomAppBar(navController) }
     ){
         Column(
@@ -148,11 +146,13 @@ fun ToDoScreen(noteViewModel: NoteViewModel, navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
 
-                /*  - Box dient zum Angleichen der Liste an den Screen, da die TopBar
+                /*
+                    - Box dient zum Angleichen der Liste an den Screen, da die TopBar
                       den ersten Eintrag der Liste verdecken würde
                 */
                 Box(modifier = Modifier.size(45.dp))
-                TaskList2()
+                //TaskList2()
+                NoteEntryList()
             }
         }
     }
@@ -163,7 +163,6 @@ fun ToDoScreen(noteViewModel: NoteViewModel, navController: NavController) {
     - Taskliste mit einer Liste mit vorgefertigten Einträgen
     - die Liste kann nicht null sein
 */
-
 @Composable
 fun TaskList() {
     LazyColumn(
@@ -173,6 +172,10 @@ fun TaskList() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        /*
+            - für jeden Eintrag der Liste "listOfTask" soll ein Card-Element
+              mithilfe der TaskCard-Funktion erstellt werden
+        */
         items(listOfTasks){
             Row(
                 Modifier
@@ -180,7 +183,7 @@ fun TaskList() {
                     .padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                TaskCard(titel = it.titel)
+                //TaskCard(titel = it.titel)
             }
         }
     }
@@ -189,8 +192,8 @@ fun TaskList() {
 
 /*
     - Taskliste mit einer Liste die auch leer sein kann
+    - für jeden Listeneintrag wird ein Card-Composable mithilfe der TaskCArd-Funktion erstellt
 */
-
 @Composable
 fun TaskList2() {
     LazyVerticalGrid(
@@ -208,63 +211,74 @@ fun TaskList2() {
             bottom = 13.dp
         )
     ) {
+        /*
+            - für jeden Eintrag der Liste "listOfTask2" soll ein Card-Element
+              mithilfe der TaskCard-Funktion erstellt werden
+        */
+
+        /*
         listOfTasks2?.let { tasks ->
             items(tasks) { task ->
                 TaskCard(titel = task.titel)
             }
         }
+
+         */
     }
 }
 
 
+/*
+    - Card-Element mit eigenem State wird erstellt
+    - soll eine Vorschau mit Titel und Inhalt des Notizeintrages wiedergeben
+*/
 @Composable
-fun TaskCard(titel: String) {
+fun TaskCard(NoteEntry : ToDoEntry, onItemClicked: (NoteEntry : ToDoEntry) -> Unit) {
     // State to handle click event
     var showSubTask by remember { mutableStateOf(false) }
 
-    if (showSubTask) {
-        showSubTask
-    } else {
+
         OutlinedCard(
             shape = CardDefaults.outlinedShape,
             modifier = Modifier
-                .size(height = 100.dp, width = 150.dp)
+                .size(height = 150.dp, width = 450.dp)
                 .padding(10.dp)
                 .clickable {
-                    showSubTask = true
+                    //showSubTask = true
+                    onItemClicked(NoteEntry)
                 },
             border = BorderStroke(1.dp, color = Color.Black),
         ) {
             Text(
-                text = titel,
+                text = NoteEntry.title,
                 modifier = Modifier.padding(10.dp)
             )
-        }
-    }
-}
+            Text(
+                text = NoteEntry.body,
+                modifier = Modifier.padding(10.dp)
+            )
 
+        }
+
+}
 
 @Composable
-fun subTaskCard(){
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(Color.Blue)
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-
-        ){
-        Text(
-            text = "Statistics Screen",
-            fontFamily = FontFamily.Serif,
-            fontSize = 22.sp
+fun NoteEntryList() {
+    LazyColumn {
+        val ToDoList :List<ToDoEntry> = listOf(
+            ToDoEntry("Airedale", "Has 0 Sub Breeds", 1),
+            ToDoEntry("Biredale", "Has 10 Sub Breeds", 2),
+            ToDoEntry("Ciredale", "Has 20 Sub Breeds", 3),
         )
+        items(ToDoList) {
+            TaskCard(NoteEntry = it, onItemClicked = {})
+        }
+
     }
 }
 
 
-
+// Checkbox-Composable welches das Checkbox-Element erstellt und dessen State trägt
 @Composable
 fun Checkbox() {
     var switch by remember {
@@ -273,14 +287,13 @@ fun Checkbox() {
             text = ""
         ))
     }
-
     androidx.compose.material3.Checkbox(checked = switch.isChecked, onCheckedChange = { isChecked ->
         switch = switch.copy(isChecked = isChecked)
     })
 }
 
 
-
+// Textfeld mit eigenen State
 @Composable
 fun BasicTextFieldDemo() {
     var textState by remember { mutableStateOf(TextFieldValue("Hello World")) }

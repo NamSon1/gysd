@@ -58,7 +58,6 @@ import kotlin.math.min
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview(showBackground = true)
 @Composable
 fun PomodoroScreen(navController: NavHostController) {
 
@@ -127,9 +126,7 @@ fun PomodoroScreen(navController: NavHostController) {
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-
         ){
-
             currentTaskGroup()
             TimerSettings()
 
@@ -143,7 +140,6 @@ fun PomodoroScreen(navController: NavHostController) {
 
             // Timer-Button + Reset-Button
             TimerButtonGroup()
-
         }
     }
 }
@@ -277,7 +273,6 @@ private fun MySwitch(){
             text = ""
         ))
     }
-
     Switch(
         checked = switch.isChecked,
         onCheckedChange = {isChecked ->
@@ -405,7 +400,6 @@ fun ResetDialog(
                 .height(200.dp)
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp),
-
             ) {
 
             Column(
@@ -439,11 +433,8 @@ fun ResetDialog(
                     ) {
                         Text("Confirm")
                     }
-
                 }
             }
-
-
         }
     }
 }
