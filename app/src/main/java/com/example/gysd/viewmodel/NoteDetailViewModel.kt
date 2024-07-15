@@ -21,6 +21,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+/*
+    - Viewmodel für d
+ */
 class NoteViewModel (
     private val noteRepository: NoteRepository,
     savedStateHandle: SavedStateHandle
@@ -30,9 +33,15 @@ class NoteViewModel (
     var titleText by mutableStateOf("")
     private var noteId: Int? = savedStateHandle.get<Int>("noteId")
 
+    /*
+        - Initialisierung der State-Variablen "noteText" und "titleText", wenn eine "noteID" vorhanden ist
+    */
     init {
+        // prüft ob eine noteID dem ViewModel übergeben wurde
         if (noteId != null) {
+            // Starten einer Coroutine
             viewModelScope.launch {
+                // Datenbankeintrag mit derselben "noteId" wird von der Datenbank genommen
                 val note = noteRepository.getNoteById(noteId!!) // Use repository
                 noteText = note.content
                 titleText = note.title
@@ -40,23 +49,30 @@ class NoteViewModel (
         }
     }
 
+    /*
+        - Funktion, die eine Coroutine erstellt, zum Abgleich von Listeneinträgen mit der Datenbank
+        - wird noch nicht verwendet und ist noch nicht fertig definiert worden
+     */
     fun saveNote() {
         viewModelScope.launch {
             val note = NoteEntity(id = noteId ?: 0, title = titleText, content = noteText)
             if (noteId == null) {
-                noteRepository.insertNote(note) // Use repository
+                noteRepository.insertNote(note)
             } else {
-                noteRepository.updateNote(note) // Use repository
+                noteRepository.updateNote(note)
             }
         }
     }
 
     //val allTasks: Flow<List<NoteEntity>> = noteRepository.getAllNotes()
 
+    // -
     val allTasks: Flow<List<NoteEntity>> = flowOf(listOfTasks.map {
         // Map Task to NoteEntity - Umwandlung der Listeneinträge zu Datenbankeinträgen
         NoteEntity(title = it.titel, content = "")
     }).flatMapLatest { initialTasks ->
+        // Aufrufen aller Datenbankeinträge mittels des Datenbankrepository,
+        // Hinzufügen der neuen Einträge
         noteRepository.getAllNotes().map { dbTasks ->
             // Combine initial and database tasks
             initialTasks + dbTasks
@@ -65,6 +81,7 @@ class NoteViewModel (
 }
 
 
+// Erstellung einer Instanz des Viewmodels
 class NoteViewModelFactory(private val repository: NoteRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         if (modelClass.isAssignableFrom(NoteViewModel::class.java)) {

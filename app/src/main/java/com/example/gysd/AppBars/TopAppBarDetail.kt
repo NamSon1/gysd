@@ -68,7 +68,5 @@ fun TopBarDetail(navController: NavController) {
                 color = Color.Black,
             )
         },
-
-
         )
 }

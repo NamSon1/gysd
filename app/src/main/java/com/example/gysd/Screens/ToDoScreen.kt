@@ -57,7 +57,7 @@ import com.example.gysd.viewmodel.NoteViewModel
 data class Task (
     val titel : String,
     val id : Int,
-    var progress : Boolean,
+    var content : String,
 )
 
 // nicht nullable Liste mit vorgefertigten Listeneinträgen
@@ -65,37 +65,37 @@ val listOfTasks : List<Task> = mutableListOf(
     Task(
         titel = "Hund füttern",
         id = 0,
-        progress = false
+        content = "abcde"
     ),
     Task(
         titel = "Einkaufen",
         id = 1,
-        progress = false
+        content = "abcde"
     ),
     Task(
         titel = "Müll rausbringen",
         id = 2,
-        progress = false
+        content = "abcde"
     ),
     Task(
         titel = "Auto tanken",
         id = 3,
-        progress = false
+        content = "abcde"
     ),
     Task(
         titel = "Steuern machen",
         id = 4,
-        progress = false
+        content = "abcde"
     ),
     Task(
         titel = "Pflanzen gießen",
         id = 5,
-        progress = false
+        content = "abcde"
     ),
     Task(
         titel = "Tonne reinbringen",
         id = 6,
-        progress = false
+        content = "abcde"
     ),
 )
 
@@ -145,13 +145,8 @@ fun ToDoScreen(noteViewModel: NoteViewModel, navController: NavController) {
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-
-                /*
-                    - Box dient zum Angleichen der Liste an den Screen, da die TopBar
-                      den ersten Eintrag der Liste verdecken würde
-                */
+                //- Box dient zum Angleichen der Liste an den Screen, da die TopBar den ersten Eintrag der Liste verdecken würde
                 Box(modifier = Modifier.size(45.dp))
-                //TaskList2()
                 NoteEntryList()
             }
         }
@@ -230,7 +225,7 @@ fun TaskList2() {
 
 /*
     - Card-Element mit eigenem State wird erstellt
-    - soll eine Vorschau mit Titel und Inhalt des Notizeintrages wiedergeben
+    - soll eine Vorschau mit Titel und Inhalt des Notizeintrages darstellen
 */
 @Composable
 fun TaskCard(NoteEntry : ToDoEntry, onItemClicked: (NoteEntry : ToDoEntry) -> Unit) {
@@ -257,11 +252,11 @@ fun TaskCard(NoteEntry : ToDoEntry, onItemClicked: (NoteEntry : ToDoEntry) -> Un
                 text = NoteEntry.body,
                 modifier = Modifier.padding(10.dp)
             )
-
         }
-
 }
 
+
+// derzeitiges verwendetes Composable zur Darstellung von Einträgen einer Liste auf dem To-Do-Screen
 @Composable
 fun NoteEntryList() {
     LazyColumn {
@@ -269,70 +264,13 @@ fun NoteEntryList() {
             ToDoEntry("Airedale", "Has 0 Sub Breeds", 1),
             ToDoEntry("Biredale", "Has 10 Sub Breeds", 2),
             ToDoEntry("Ciredale", "Has 20 Sub Breeds", 3),
+            ToDoEntry("Diredale", "Has 30 Sub Breeds", 4),
+            ToDoEntry("Eiredale", "Has 40 Sub Breeds", 5),
         )
         items(ToDoList) {
             TaskCard(NoteEntry = it, onItemClicked = {})
         }
 
-    }
-}
-
-
-// Checkbox-Composable welches das Checkbox-Element erstellt und dessen State trägt
-@Composable
-fun Checkbox() {
-    var switch by remember {
-        mutableStateOf(ToggleableInfo(
-            isChecked = false,
-            text = ""
-        ))
-    }
-    androidx.compose.material3.Checkbox(checked = switch.isChecked, onCheckedChange = { isChecked ->
-        switch = switch.copy(isChecked = isChecked)
-    })
-}
-
-
-// Textfeld mit eigenen State
-@Composable
-fun BasicTextFieldDemo() {
-    var textState by remember { mutableStateOf(TextFieldValue("Hello World")) }
-    Column {
-        BasicTextField(value = textState, onValueChange = {
-            textState = it
-        })
-        Text("The textfield has this text: " + textState.text)
-    }
-}
-
-
-// wird nicht verwendet (ersetzt von NotizSchreiben.kt)
-@Composable
-fun NotizScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(backGroundgrey),
-
-    ){
-        var text1 by remember {
-            mutableStateOf("")
-        }
-        var text2 by remember {
-            mutableStateOf("")
-        }
-
-        val modifier = Modifier
-            .fillMaxWidth()
-            .background(backGroundgrey)
-            .padding(16.dp)
-
-        /*
-            - Textfeld so groß wie der Screen
-            - Screen-Größe -> MaxLines / minLines von BasicTextField
-            - https://www.youtube.com/watch?v=srp2d3_ofRU
-        */
-        BasicTextField(value = text1, onValueChange = { text1 = it }, modifier = modifier,)
     }
 }
 
